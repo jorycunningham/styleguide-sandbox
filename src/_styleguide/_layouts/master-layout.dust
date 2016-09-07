@@ -1,0 +1,16 @@
+{>"src/_styleguide/_layouts/partials/global/head" /}
+  <div class="wrap-all js-is-sidenav-open" data-module="wrap-all-content">
+{>"src/_styleguide/_layouts/partials/global/side-navigation" /}
+ <div class="main-content" data-module="main-content">
+     {#template}
+       {>"src/_styleguide/_layouts/templates/{template}" /}
+      {:else}
+    {>"src/_styleguide/_layouts/templates/default" /}
+          {#collection}
+            {>"src/_styleguide/_layouts/templates/{collection}" /}
+            {:else}          
+            {/collection}
+      {/template}
+</div>
+</div>  
+{>"src/_styleguide/_layouts/partials/global/footer" /}

@@ -1,0 +1,31 @@
+
+
+<div class="SideNavigation__toggle-wrap" data-module="SideNavigation__toggle-wrap">
+<a class="SideNavigation__toggle" data-action="SideNavigation_toggle">
+  <span class="flipper">
+    <span class="front">
+    {>"src/_styleguide//resources/images/icons/icon--nav-open.svg" /}
+       <span class="SideNavigation_toggle-fallback-text--open">menu</span>
+    </span>
+    <span class="back">
+      <!-- back content -->
+    {>"src/_styleguide//resources/images/icons/icon--nav-close.svg" /}
+       <span class="SideNavigation_toggle-fallback-text--close">close menu</span>
+    </span>
+  </span>
+  </a>
+</div>
+
+<section class="SideNavigation" data-module="SideNavigation">
+      <div class="SideNavigation__wrap">
+        <nav>
+          <ul class="SideNavigation__nav-list">
+            <li class="SideNavigation__nav-option SideNavigation__nav-option--top"><a href="/about">About</a></li>
+            {#collections.styles}
+                  {>"src/_styleguide/_layouts/partials/global/side-navigation-item" /}
+            {/collections.styles}
+          </ul>
+        </nav>
+
+      </div>
+</section>

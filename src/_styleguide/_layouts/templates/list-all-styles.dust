@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>My Styleguide</h1>
+      {contents|s}
+      {#collections.styles}
+      {>"src/_styleguide/_layouts/partials/style-listing" showLink="true" /}
+      {/collections.styles}
+    </div>
+  </div>
+</div>

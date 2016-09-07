@@ -1,0 +1,15 @@
+<section class="Pattern" id="{data.name}">
+<h2 class="styleguideHeadline">
+{#showLink}<a href="{path.href}">{/showLink}
+  {#data.displayName}{data.displayName}{:else}{data.name}{/data.displayName}
+{#showLink}</a>{/showLink}
+</h2>
+<p><strong>Group:</strong> {data.group}</p>
+  <div class="Pattern__description">{data.description}</div>
+  {#data.exampleLocation}
+    {>"src/components/{data.exampleLocation}" /}
+  {:else}
+    {>"src/components/{data.group}/{data.name}/{data.name}.html" /}
+   {/data.exampleLocation}
+  <hr class="Pattern__divider" />
+</section>

@@ -1,0 +1,10 @@
+<li class="SideNavigation__nav-option SideNavigation__nav-option--top">
+  {#scrollPageNav}
+    <a href="#{data.name}" data-action="scrollTo">
+  {:else}
+    <a href="/#{data.name}">
+  {/scrollPageNav}
+    {#data.displayName}{data.displayName}{:else}{data.name}{/data.displayName}
+  </a>
+</li>
+

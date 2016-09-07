@@ -1,0 +1,211 @@
+/*
+* @name Grid
+* @displayName The Grid
+* @description Here is a sample grid
+* @group core
+*/
+
+
+// Grid Settings
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 30em,
+  md: 44em,
+  lg: 64em,
+  xl: 70em
+);
+
+$grid-columns: 12;
+$gutter-width: .875rem;
+$grid-container-name: 'container';
+$grid-container-max-width: 75rem;
+$grid-container-min-width: 20rem;
+$grid-col-name: 'col';
+$grid-row-name: 'row';
+$grid-offset-name: 'offset';
+$grid-reorder-left-name: 'push';
+$grid-reorder-right-name: 'pull';
+
+
+@mixin mq($breakname) {
+
+	@each $breakpoint in map-keys($grid-breakpoints) {
+		 
+		 $breakValue: map-get($grid-breakpoints, $breakpoint);
+
+		@if $breakname == $breakpoint {
+  		@media (min-width: $breakValue) {
+    			@content;
+  		}
+  	}
+
+	}
+
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+
+@function calculateSpacing($col-numbers, $grid-columns) {
+  $spacing: ($col-numbers/$grid-columns) * 100%;
+  @return  $spacing;
+}
+
+@function calculateFlexSpacing($col-numbers, $grid-columns) {
+  
+  @if $col-numbers > 0 {
+    $spacing: ($col-numbers/$grid-columns) * 100%;
+    @return 0 0 $spacing;
+  }
+  @if $col-numbers = 0 {
+    @return 1;
+  }
+
+}
+
+
+@mixin container($max-width: $grid-container-max-width, $min-width: $grid-container-min-width){
+    max-width: $max-width;
+    min-width: $min-width;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 ($gutter-width *2);
+}
+
+
+@mixin row() {
+  // print basic row
+  .#{$grid-row-name}{
+    margin-right: -#{$gutter-width};
+    margin-left: -#{$gutter-width};
+
+    .no-flexwrap & {
+      @include clearfix();
+    }
+
+    .flexwrap & {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+  }
+
+}
+
+@mixin span ($col-span, $print-all: false, $grid-columns:$grid-columns){
+
+   .no-flexwrap & {
+      width: calculateSpacing($col-span, $grid-columns);
+    }
+
+    .flexwrap & {
+      flex: calculateFlexSpacing($col-span, $grid-columns);
+    }
+    
+
+    @if $print-all == true {
+        float: left;
+        padding-left: $gutter-width;
+        padding-right: $gutter-width;
+        
+
+        .no-flexwrap & {
+          float: left;
+          display: inline-block;
+        }
+
+        .flexwrap & {
+          flex-basis: 100%;
+        }
+
+    }
+}
+
+@mixin offset ($col-span){
+  margin-left: calculateSpacing($col-span, $grid-columns);
+}
+
+@mixin push ($col-span){
+  left: calculateSpacing($col-span, $grid-columns);
+}
+
+@mixin pull ($col-span){
+  right: calculateSpacing($col-span, $grid-columns);
+}
+
+@mixin generate-col-spacing ($sizePrefix, $grid-columns: $grid-columns ){
+    $colLimit: $grid-columns;
+    @for $i from 1 through $colLimit {
+
+      // write column classes
+      .#{$grid-col-name}-#{$sizePrefix}-#{$i} { 
+          @include span($i);
+      }
+      // write offset classes
+      .#{$grid-col-name}-#{$sizePrefix}-#{$grid-offset-name}-#{$i} { 
+          @include offset($i);
+      }
+
+       // write push classes
+      .#{$grid-col-name}-#{$sizePrefix}-#{$grid-reorder-left-name}-#{$i} { 
+          @include push($i);
+      }
+
+        // write pull classes
+      .#{$grid-col-name}-#{$sizePrefix}-#{$grid-reorder-right-name}-#{$i} { 
+          @include pull($i);
+      }
+      
+  }
+
+   .#{$grid-col-name}-#{$sizePrefix}-#{$grid-offset-name}-0 {
+      margin-left: 0;
+   }
+
+  // write push classes
+    .#{$grid-col-name}-#{$sizePrefix}-#{$grid-reorder-left-name}-0 { 
+        left: 0;
+    }
+
+      // write pull classes
+    .#{$grid-col-name}-#{$sizePrefix}-#{$grid-reorder-right-name}-0 { 
+        right: 0;
+    }
+}
+
+
+
+@mixin generate-grid(){
+  // create-basic container
+    .#{$grid-container-name}{
+    @include container();
+  }
+
+
+    // make rows
+    @include row();
+
+  // all column sizes start as full width by default
+    [class*="#{$grid-col-name}-"]{
+      @include span(12, true);
+
+    }
+
+  @each $breakpoint in map-keys($grid-breakpoints) {
+  		@include mq($breakpoint) {
+    		@include generate-col-spacing($breakpoint);
+  		}
+  }
+
+}
+
+
+@include generate-grid();

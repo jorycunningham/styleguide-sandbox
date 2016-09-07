@@ -1,0 +1,79 @@
+########################
+# node.js / npm
+########################
+
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+results
+
+npm-debug.log
+
+
+########################
+# misc / editors
+########################
+
+*~
+*#
+.DS_STORE
+.DS_Store
+.netbeans
+nbproject
+.idea
+.settings
+*.sublime-project
+*.sublime-workspace
+
+
+########################
+# local config
+########################
+
+config/local.js
+
+
+########################
+# Caches
+########################
+
+.sass-cache
+
+
+########################
+# Managed Packages
+########################
+
+node_modules
+
+########################
+# Redis Files
+########################
+
+dump.rdb
+
+########################
+# Vagrant VMs
+########################
+
+.vagrant
+
+########################
+# Jasmine reports
+########################
+
+build
+
+########################
+# Build artifacts
+########################
+
+dist
+

@@ -1,0 +1,80 @@
+@import 'https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700';
+
+
+@function unitlessLineHeight($fontSize, $lineHeightTarget) {
+  $lineHeightRatio: $lineHeightTarget/$fontSize;
+  @return strip-unit( $lineHeightRatio); // defined in utilities/_util-functions-mixins.scss
+}
+
+@mixin typesetting($fontSize, $lineHeightTarget) {
+  font-size: calculateRem($fontSize); // defined in utilities/_util-functions-mixins.scss
+  line-height: unitlessLineHeight($fontSize, $lineHeightTarget);
+}
+
+html {
+  font-size: 100%;
+}
+
+body{
+	@include typesetting($bodyFontSize,$bodyLineHeight);
+	font-family: 'Merriweather', Georgia, Times, "Times New Roman", serif;
+	font-weight: 300;
+	letter-spacing: .075rem;
+	-webkit-text-size-adjust: none; 
+}
+
+p{
+	margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+.SideNavigation {
+	font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	letter-spacing: .25rem;
+}
+
+
+h3 {
+	font-weight: 400;
+}
+
+h1 {
+	@include typesetting($bodyFontSize * 1.5, $bodyLineHeight* 1.25);
+
+}
+
+h2 {
+	@include typesetting($bodyFontSize * 1.25, $bodyLineHeight* 1.25);
+	color: $accentColor1;
+}
+
+h3 {
+	@include typesetting($bodyFontSize * 1.15, $bodyLineHeight* 1);
+	color: $accentColor1;
+	font-weight: 400;
+}
+
+
+a {
+	color: $accentColor2;
+	text-decoration: none;
+	border-bottom: 1px solid $accentColor1;
+	padding-bottom: calculateRem(2px);
+
+	&:visited {
+		color: $accentColor2;
+
+	}
+
+	&:active,
+	&:hover {
+		color: $accentColor1;
+		border-bottom-color: $accentColor2;
+	}
+}
+
+strong{
+	font-weight: 700;
+}

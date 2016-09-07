@@ -1,0 +1,24 @@
+@mixin mq($breakname) {
+  @if $breakname == small-only {
+    @media (max-width: ($medium-break - .01)) {
+      @content;
+    }
+  }
+  @else if $breakname == medium {
+    @media (min-width: $medium-break) {
+      @content;
+    }
+  }
+
+  @else if $breakname == medium-only {
+    @media (min-width: $medium-break) and (max-width: ($large-break - .01)) {
+      @content;
+    }
+  }
+  @else if $breakname == large {
+    @media (min-width: $large-break) {
+      @content;
+    }
+  }
+
+}

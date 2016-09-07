@@ -1,0 +1,3 @@
+{>"src/_styleguide/_layouts/partials/global/head" /}
+{contents|s}    
+{>"src/_styleguide/_layouts/partials/global/footer" /}
