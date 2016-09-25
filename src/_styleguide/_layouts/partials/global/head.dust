@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>My Styleguide | {title}</title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="/resources/js/vendor/modernizr-custom.js"></script>
+    <script type="text/javascript" src="/resources/js/dist/modernizr.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/css/styleguide.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 	</head>

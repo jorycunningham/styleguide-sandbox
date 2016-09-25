@@ -20,15 +20,18 @@
     "dss": "^1.0.4",
     "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.3",
+    "google-code-prettify": "^1.0.5",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
+    "gulp-modernizr": "^1.0.0-alpha",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
+    "js-beautify": "^1.6.4",
     "lodash": "^4.13.1",
     "metalsmith": "^2.1.0",
     "metalsmith-assets": "^0.1.0",
@@ -38,7 +41,8 @@
     "metalsmith-layouts": "^1.6.5",
     "metalsmith-paths": "^2.1.2",
     "metalsmith-permalinks": "^0.5.0",
-    "run-sequence": "^1.2.1"
+    "run-sequence": "^1.2.1",
+    "smooth-scroll": "github:cferdinandi/smooth-scroll"
   },
   "globalDevDependencies": {
     "gulp": "^3.9.0"

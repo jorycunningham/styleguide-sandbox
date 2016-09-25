@@ -3,6 +3,7 @@ var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
 var del = require('del');
 var gulp = require('gulp');
+var modernizr = require('gulp-modernizr');
 var rename = require("gulp-rename");
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
@@ -54,6 +55,17 @@ gulp.task('component-sass', function (cb) {
 	cb();
 });
 
+gulp.task('modernizr', function() {
+  gulp.src([config.styleguideJsFolder+'dist/styleguide-all.js', config.styleguideCssFolder+'main.css'])
+    .pipe(modernizr({
+			"options" : [
+				"setClasses"
+		],
+
+		}))
+    .pipe(gulp.dest(config.styleguideJsFolder+'dist/'))
+});
+
 
 gulp.task('styleguide-sass', function (cb) {
 	// Compile the sass and autoprefix the CSS
@@ -70,9 +82,9 @@ gulp.task('styleguide-scriptConcat', function(cb) {
 	console.log('loc: ', config.styleguideJsFolder+'dist/');
 	return gulp.src(
 
-		[config.styleguideJsFolder + 'vendor/beautify-html.js',
-		config.styleguideJsFolder + 'vendor/smooth-scroll.min.js',
-		config.styleguideJsFolder +'vendor/prettify.js',
+		['./node_modules/js-beautify/js/lib/beautify-html.js',
+		'./node_modules/smooth-scroll/src/js/smooth-scroll.js',
+		'./node_modules/google-code-prettify/src/prettify.js',
 		config.styleguideJsFolder + 'src/site-interactions.js'
 		])
 	.pipe(concat('styleguide-all.js'))
@@ -140,6 +152,7 @@ gulp.task('build-all' , function(cb) {
 		'clean',
 		'buildComponents',
 		'buildStyleguideResources',
+		'modernizr',
 		'compileSite',
 		'serve',
 		cb);
