@@ -13,8 +13,7 @@ var config  =  {
 	styleguideCssFolder : './src/_styleguide/resources/css/',
 	styleguideSassFile : './src/_styleguide/resources/sass/styleguide.scss',
 	styleguideSassFilesAll : './src/_styleguide/resources/sass/**/*.scss',
-	styleguideJsFolder : './src/_styleguide/resources//js'
+	styleguideJsFolder : './src/_styleguide/resources/js/'
 };
 
 module.exports = config;
-

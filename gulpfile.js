@@ -3,7 +3,6 @@ var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
 var del = require('del');
 var gulp = require('gulp');
-var minify = require('gulp-minify');
 var rename = require("gulp-rename");
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
@@ -68,26 +67,19 @@ gulp.task('styleguide-sass', function (cb) {
 
 gulp.task('styleguide-scriptConcat', function(cb) {
 	// Concatinate all the scripts used for the styleguide
+	console.log('loc: ', config.styleguideJsFolder+'dist/');
 	return gulp.src(
-		[config.styleguideJsFolder +'/vendor/jquery-2.2.3.min.js',
-		config.styleguideJsFolder + '/vendor/beautify-html.js',
-		config.styleguideJsFolder +'/vendor/prettify.js',
-		config.styleguideJsFolder + '/src/styleguide-code-formatting.js',
-		config.styleguideJsFolder + '/src/site-interactions.js'
+
+		[config.styleguideJsFolder + 'vendor/beautify-html.js',
+		config.styleguideJsFolder + 'vendor/smooth-scroll.min.js',
+		config.styleguideJsFolder +'vendor/prettify.js',
+		config.styleguideJsFolder + 'src/site-interactions.js'
 		])
 	.pipe(concat('styleguide-all.js'))
-	.pipe(gulp.dest(config.styleguideJsFolder+'/dist/'));
+	.pipe(gulp.dest(config.styleguideJsFolder+'dist/'));
 	cb();
 });
 
-
-gulp.task('styleguide-scriptMinify', function(cb){
-	// Minify the JS
-	return gulp.src(config.styleguideJsFolder+'/dist/styleguide-all.js')
-	.pipe(minify())
-	.pipe(gulp.dest(config.styleguideJsFolder+'/dist/'));
-	cb();
-});
 
 
 gulp.task('serve', function() {
@@ -138,7 +130,7 @@ gulp.task('buildStyleguideResources', function(cb) {
 	runSequence(
 		'styleguide-sass',
 		'styleguide-scriptConcat',
-		['buildStyleData', 'styleguide-scriptMinify'],
+		'buildStyleData',
 		cb);
 });
 

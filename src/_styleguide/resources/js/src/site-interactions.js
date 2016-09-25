@@ -1,67 +1,74 @@
 
-//----------------  Resize debounce Helper function
-
-  // debouncing function from John Hann
-  // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
-  function sharedDebounceUtility (func, threshold, execAsap) {
-      var timeout;
-
-      return function debounced () {
-          var obj = this, args = arguments;
-          function delayed () {
-              if (!execAsap)
-                  func.apply(obj, args);
-              timeout = null;
-          }
-
-          if (timeout)
-              clearTimeout(timeout);
-          else if (execAsap)
-              func.apply(obj, args);
-
-          timeout = setTimeout(delayed, threshold || 100);
-      };
-  }
-
-
-
-(function($,sr){
-
-
-  // smartresize 
-  jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', sharedDebounceUtility(fn)) : this.trigger(sr); };
-
-})(jQuery,'smartresize');
-
-
 //---------------  Site Interactions
 
 var styleguideSandbox = (function(){
   var mediumBreakpoint = 704;
   var currentWindowWidth;
 
+
+	var codeExamplesGenerator = (function(){
+			var init = function() {
+				// find all examples marked with the data-code attribute
+				var exampleUnit;
+				var codeExamples = document.querySelectorAll('[data-code]');
+
+				if (codeExamples.length){
+
+					for (exampleUnit of codeExamples) {
+						// grab the html in these examples, escape it and print it in <pre class="prettyprint"></pre>
+
+						var exampleHTML = escapeHtml(exampleUnit.innerHTML);
+
+						var formattedExample = document.createElement("pre");
+								formattedExample.innerHTML = exampleHTML;
+								formattedExample.classList.add('prettyprint');
+
+						// remove the data-code attribute to mark the example as copied
+						exampleUnit.removeAttribute('data-code');
+
+
+						insertCopiedCodeSnippet(formattedExample, exampleUnit);
+
+					}
+
+					prettyPrint();
+
+				};
+
+				function insertCopiedCodeSnippet(newNode, referenceNode) {
+					referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+				}
+
+				function escapeHtml(htmlString) {
+					return htmlString
+					 .replace(/&/g, "&amp;")
+					 .replace(/></g, "&gt;\n&lt;")
+					 .replace(/</g, "&lt;")
+					 .replace(/>/g, "&gt;")
+					 .replace(/"/g, "&quot;")
+					 .replace(/'/g, "&#039;");
+				}
+
+			};
+
+			return {
+				init: init
+			};
+
+
+	})();
+
   var scrollToTargetUtility = (function(){
-         // Utility function for smooth scrolling to provided element
-        // $target = jquery object for scroll target
-        // speed = animation time (2s, 750ms)
-
-        var scrollToTarget = function($target, speed){
-                var scrollTo = $target.offset().top;
-                var speed = speed || 600;
-      
-                $('html, body').animate({
-                        scrollTop: scrollTo
-                }, speed);
-
-        };
+ 		// uses https://github.com/cferdinandi/smooth-scroll
 
         var init = function(){
-            $('[data-action="scrollTo"]').on('click', function(){
-                var target = $(this).attr('href');
-                var $target = $(target);
-                scrollToTarget($target, 600);
-                event.preventDefault();
-            });
+
+					smoothScroll.init({
+				    selector: '[data-action="scrollTo"]',
+				    selectorHeader: null,
+				    speed: 600,
+				});
+
         };
 
         return {
@@ -74,11 +81,11 @@ var styleguideSandbox = (function(){
 
         // Function's Global Vars
         var firstTimeLoad = true;
-        var $sideNavigation = $('[data-module="SideNavigation"]');
-        var $sideNavigationToggleWrap = $('[data-module="SideNavigation__toggle-wrap"]');
-        var $toggleLink = $sideNavigationToggleWrap.find('[data-action="SideNavigation_toggle"]');
-        var $wrap = $('[data-module="wrap-all-content"]');
-        var $mainContent = $('[data-module="main-content"]');
+        var $sideNavigation = document.querySelector('[data-module="SideNavigation"]');
+        var $sideNavigationToggleWrap = document.querySelector('[data-module="SideNavigation__toggle-wrap"]');
+        var $toggleLink = $sideNavigationToggleWrap.querySelector('[data-action="SideNavigation_toggle"]');
+        var $wrap = document.querySelector('[data-module="wrap-all-content"]');
+        var $mainContent = document.querySelector('[data-module="main-content"]');
         var openNavClass = 'js-is-sidenav-open';
         var navClosedManuallyClass = 'js-is-sidenav-closed-manually';
 
@@ -87,17 +94,16 @@ var styleguideSandbox = (function(){
 
         var checkWidth = function(){
 
-          currentWindowWidth = $(window).width();
-
+          currentWindowWidth = window.innerWidth;
 
           if (currentWindowWidth < 900){
 
               closeNav();
-       
+
 
             } else {
 
-              if(!$sideNavigation.hasClass(navClosedManuallyClass)){
+              if(!$sideNavigation.classList.contains(navClosedManuallyClass)){
                 openNav();
               }
             }
@@ -106,7 +112,7 @@ var styleguideSandbox = (function(){
 
         var checkNavOpen = function(isManual){
 
-          if ($wrap.hasClass(openNavClass)){
+          if ($wrap.classList.contains(openNavClass)){
 
               closeNav(isManual);
 
@@ -121,35 +127,35 @@ var styleguideSandbox = (function(){
 
             if(!firstTimeLoad){
               toggleAnimation();
-            } 
-            
-            setTimeout(function(){
-               $wrap.removeClass(openNavClass);
-            }, 150);
-           
-            
-            if(isManual){
-              $sideNavigation.addClass(navClosedManuallyClass);
             }
 
-            $mainContent.off('click', closeNav);
+            setTimeout(function(){
+               $wrap.classList.remove(openNavClass);
+            }, 150);
+
+
+            if(isManual){
+              $sideNavigation.classList.add(navClosedManuallyClass);
+            }
+
+            $mainContent.removeEventListener('click', closeNav);
         };
 
         var openNav = function(){
-            
+
             if(!firstTimeLoad){
               toggleAnimation();
-            } 
+            }
             setTimeout(function(){
-               $wrap.addClass(openNavClass);
+               $wrap.classList.add(openNavClass);
             }, 150);
-            
-            $sideNavigation.removeClass(navClosedManuallyClass);
+
+            $sideNavigation.classList.remove(navClosedManuallyClass);
         };
 
         var openIfClosed = function(isManual){
-          
-          if (!$wrap.hasClass(openNavClass)){
+
+          if (!$wrap.classList.contains(openNavClass)){
 
               openNav();
 
@@ -159,14 +165,14 @@ var styleguideSandbox = (function(){
         var toggleAnimation = function(){
 
           var flipClass = 'js-toggle-wrap--flip';
-        
+
 
           setTimeout(function(){
-            $sideNavigationToggleWrap.removeClass(flipClass);
+            $sideNavigationToggleWrap.classList.remove(flipClass);
           }, 650);
 
-          $sideNavigationToggleWrap.addClass(flipClass);
-          
+          $sideNavigationToggleWrap.classList.add(flipClass);
+
         };
 
 
@@ -177,7 +183,7 @@ var styleguideSandbox = (function(){
 
           // init button toggle
 
-          $toggleLink.on('click', function(e){
+          $toggleLink.addEventListener('click', function(e){
 
             checkNavOpen(true);
 
@@ -187,19 +193,34 @@ var styleguideSandbox = (function(){
 
            // init nav toggle on click if nav closed
 
-          $sideNavigation.on('click', function(e){
+          $sideNavigation.addEventListener('click', function(e){
 
             openIfClosed(true);
-           
+
 
           });
 
           // on window resize some things need to get recalculated
 
-          $(window).smartresize(function(){
-            checkWidth();
-            
-          });
+			function debounce (func, wait, immediate) {
+					var timeout;
+					return function() {
+						var context = this, args = arguments;
+						var later = function() {
+							timeout = null;
+							if (!immediate) func.apply(context, args);
+						};
+						var callNow = immediate && !timeout;
+						clearTimeout(timeout);
+						timeout = setTimeout(later, wait);
+						if (callNow) func.apply(context, args);
+					};
+				};
+
+				window.addEventListener("resize", debounce(function() {
+							checkWidth();
+				}, 500));
+
 
           // set first time load to false for animation
 
@@ -214,18 +235,31 @@ var styleguideSandbox = (function(){
     })();
 
   // Initialize Modules
+
+		function ready(fn) {
+			if (document.readyState != 'loading'){
+				fn();
+			} else {
+				document.addEventListener('DOMContentLoaded', fn);
+			}
+		}
+
+
     var init = function(){
-      sideNavigation.init();
-      scrollToTargetUtility.init();
+
+			ready(function(){
+				sideNavigation.init();
+				scrollToTargetUtility.init();
+				codeExamplesGenerator.init();
+			})
     };
 
     return {
         init: init
     };
 
-})();  
+})();
 
 
-$('document').ready(function(){
-  styleguideSandbox.init(); 
-});
+
+  styleguideSandbox.init();
