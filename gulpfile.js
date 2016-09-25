@@ -75,7 +75,6 @@ gulp.task('styleguide-sass', function (cb) {
 
 gulp.task('styleguide-scriptConcat', function(cb) {
 	// Concatinate all the scripts used for the styleguide
-	console.log('loc: ', config.styleguideJsFolder+'dist/');
 	return gulp.src(
 
 		['./node_modules/js-beautify/js/lib/beautify-html.js',
