@@ -35,7 +35,6 @@ gulp.task('clean', function (cb) {
 	return del([
 		config.dist + '**/*',
 	]);
-	cb();
 });
 
 
@@ -52,7 +51,6 @@ gulp.task('component-sass', function (cb) {
 	.pipe(autoprefixer())
 	.pipe(sourcemaps.write('maps'))
 	.pipe(gulp.dest(config.styleguideCssFolder));
-	cb();
 });
 
 gulp.task('modernizr', function() {
@@ -61,7 +59,6 @@ gulp.task('modernizr', function() {
 			"options" : [
 				"setClasses"
 		],
-
 		}))
     .pipe(gulp.dest(config.styleguideJsFolder+'dist/'))
 });
@@ -73,7 +70,6 @@ gulp.task('styleguide-sass', function (cb) {
 	.pipe(sass().on('error', sass.logError))
 	.pipe(autoprefixer())
 	.pipe(gulp.dest(config.styleguideCssFolder));
-	cb();
 });
 
 
@@ -89,7 +85,6 @@ gulp.task('styleguide-scriptConcat', function(cb) {
 		])
 	.pipe(concat('styleguide-all.js'))
 	.pipe(gulp.dest(config.styleguideJsFolder+'dist/'));
-	cb();
 });
 
 
