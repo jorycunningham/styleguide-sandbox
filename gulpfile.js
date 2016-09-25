@@ -30,7 +30,7 @@ gulp.task('buildStyleData', shell.task([
 ]));
 
 
-gulp.task('clean', function (cb) {
+gulp.task('clean', function () {
 	// clear dist folder for new build
 	return del([
 		config.dist + '**/*',
@@ -44,7 +44,7 @@ gulp.task('compileSite', shell.task([
 ]));
 
 
-gulp.task('component-sass', function (cb) {
+gulp.task('component-sass', function () {
 	// Compile the sass and autoprefix the CSS
 	return gulp.src(config.componentSassFile)
 	.pipe(sass().on('error', sass.logError))
@@ -64,7 +64,7 @@ gulp.task('modernizr', function() {
 });
 
 
-gulp.task('styleguide-sass', function (cb) {
+gulp.task('styleguide-sass', function () {
 	// Compile the sass and autoprefix the CSS
 	return gulp.src(config.styleguideSassFile)
 	.pipe(sass().on('error', sass.logError))
@@ -73,7 +73,7 @@ gulp.task('styleguide-sass', function (cb) {
 });
 
 
-gulp.task('styleguide-scriptConcat', function(cb) {
+gulp.task('styleguide-scriptConcat', function() {
 	// Concatinate all the scripts used for the styleguide
 	return gulp.src(
 
